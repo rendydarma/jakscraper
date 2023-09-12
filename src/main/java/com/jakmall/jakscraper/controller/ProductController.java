@@ -10,20 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jakmall.jakscraper.dto.product.ProductResDto;
-import com.jakmall.jakscraper.service.ScrapeService;
+import com.jakmall.jakscraper.service.ProductService;
 
 @RestController
-@RequestMapping("/scrape")
-public class ScrapeController {
+@RequestMapping("/products")
+public class ProductController {
 
 	@Autowired
-	private ScrapeService scrapeService;
+	private ProductService productService;
 	
 	@GetMapping()
-	public ResponseEntity<List<ProductResDto>> scrape(){
-		final List<ProductResDto> responses = scrapeService.scrape();
-		return new ResponseEntity<>(responses, HttpStatus.OK);
+	public ResponseEntity<List<ProductResDto>> getAll(){
+		final List<ProductResDto> responses = productService.getAll();
+		return new ResponseEntity<List<ProductResDto>>(responses, HttpStatus.OK);
 	}
-	
 	
 }

@@ -25,8 +25,8 @@ public class SupplierController {
 	
 	@GetMapping()
 	public ResponseEntity<List<SupplierResDto>> getAll(){
-		final List<SupplierResDto> response = supplierService.getAll();
-		return new ResponseEntity<List<SupplierResDto>>(response, HttpStatus.OK);
+		final List<SupplierResDto> responses = supplierService.getAll();
+		return new ResponseEntity<List<SupplierResDto>>(responses, HttpStatus.OK);
 	}
 	
 	@PostMapping()

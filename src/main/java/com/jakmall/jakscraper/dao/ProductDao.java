@@ -1,5 +1,7 @@
 package com.jakmall.jakscraper.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +22,15 @@ public class ProductDao {
 		}else {		
 			productRepo.save(product);
 		}
+	}
+	
+	public List<Product> getAll(){
+		final List<Product> products = productRepo.findAll();
+		return products;
+	}
+	
+	public Product getProduct(String sku){
+		final Product product = productRepo.getBySku(sku);
+		return product;
 	}
 }

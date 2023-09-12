@@ -19,6 +19,11 @@ public class SupplierDao {
 		return suppliers;
 	}
 	
+	public Supplier getSupplier(Long supplierId){
+		final Supplier supplier = supplierRepo.findById(supplierId).get();
+		return supplier;
+	}
+	
 	public Supplier insert(Supplier supplier) {
 		supplierRepo.save(supplier);
 		return supplier;

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jakmall.jakscraper.dao.SupplierDao;
+import com.jakmall.jakscraper.dto.product.ProductResDto;
 import com.jakmall.jakscraper.model.Product;
 import com.jakmall.jakscraper.model.Supplier;
 
@@ -25,10 +26,12 @@ public class ScrapeService {
 	@Autowired
 	private SupplierDao supplierDao;
 	
+	
 	@Transactional
-	public List<Product> scrape() {
+	public List<ProductResDto> scrape() {
 		final List<Supplier> supplier = supplierDao.getSuppliers();
 		final List<Product> products = new ArrayList<>();
+		final List<ProductResDto> responses = new ArrayList<>();
 		
 		for(Supplier s : supplier) {
 			try {
@@ -69,9 +72,19 @@ public class ScrapeService {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			productService.insertProduct(products);				
 		}
-		return products;
+		
+		productService.insertProduct(products);		
+		
+		for(Product product : products) {
+			final ProductResDto response = new ProductResDto();
+			response.setSku(product.getSku());
+			response.setPrice(product.getPrice());
+			response.setInStock(product.getInStock());				
+			response.setSupplierName(product.getSupplier().getSupplierName());
+			responses.add(response);
+		}
+		return responses;
 	}
 	
 	public List<Product> extendScrape(Supplier supplier, String url) {
