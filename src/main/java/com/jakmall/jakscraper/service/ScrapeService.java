@@ -48,6 +48,7 @@ public class ScrapeService {
 					for(int j = 0; j < productSku.length(); j++) {					
 						Product product = new Product();
 						product.setSupplier(s);
+						product.setProductName(productArr.getJSONObject(i).getString("name"));
 						product.setSku(productSku.getJSONObject(j).getString("sku"));
 						product.setPrice(Long.valueOf(productSku.getJSONObject(j).getLong("final_price")));
 						product.setInStock(Boolean.valueOf(productSku.getJSONObject(j).getBoolean("in_stock")));
@@ -103,6 +104,7 @@ public class ScrapeService {
 				for(int j = 0; j < productSku.length(); j++) {					
 					Product product = new Product();
 					product.setSupplier(supplier);
+					product.setProductName(productArr.getJSONObject(i).getString("name"));
 					product.setSku(productSku.getJSONObject(j).getString("sku"));
 					product.setPrice(Long.valueOf(productSku.getJSONObject(j).getLong("final_price")));
 					product.setInStock(Boolean.valueOf(productSku.getJSONObject(j).getBoolean("in_stock")));

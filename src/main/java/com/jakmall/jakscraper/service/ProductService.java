@@ -31,6 +31,7 @@ public class ProductService {
 		for (Product p : products) {
 			final ProductResDto response = new ProductResDto();
 			response.setSupplierName(p.getSupplier().getSupplierName());
+			response.setProductName(p.getProductName());
 			response.setSku(p.getSku());
 			response.setPrice(p.getPrice());
 			response.setInStock(p.getInStock());

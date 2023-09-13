@@ -14,6 +14,9 @@ public class Product extends BaseModel{
 	@JoinColumn(name = "supplier_id")
 	private Supplier supplier;
 	
+	@Column(name = "product_name")
+	private String productName;
+	
 	@Column(name = "sku")
 	private String sku;
 	
@@ -28,6 +31,12 @@ public class Product extends BaseModel{
 	}
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	public String getSku() {
 		return sku;
@@ -47,5 +56,6 @@ public class Product extends BaseModel{
 	public void setInStock(Boolean inStock) {
 		this.inStock = inStock;
 	}
+	
 	
 }

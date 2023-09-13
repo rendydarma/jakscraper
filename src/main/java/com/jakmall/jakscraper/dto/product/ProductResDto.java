@@ -2,11 +2,18 @@ package com.jakmall.jakscraper.dto.product;
 
 public class ProductResDto {
 
+	private String productName;
 	private String supplierName;
 	private String sku;
 	private Long price;
 	private Boolean inStock;
 	
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 	public String getSupplierName() {
 		return supplierName;
 	}
