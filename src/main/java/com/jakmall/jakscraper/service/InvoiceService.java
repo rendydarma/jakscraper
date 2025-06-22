@@ -16,6 +16,7 @@ import com.jakmall.jakscraper.dto.invoice.InvoiceReqDto;
 import com.jakmall.jakscraper.dto.invoice.InvoiceResDto;
 import com.jakmall.jakscraper.dto.invoicedetail.InvoiceDetailInsertReqDto;
 import com.jakmall.jakscraper.dto.invoicedetail.InvoiceDetailResDto;
+import com.jakmall.jakscraper.dto.soldproduct.SoldProductInsertReqDto;
 import com.jakmall.jakscraper.model.Invoice;
 import com.jakmall.jakscraper.model.InvoiceDetail;
 import com.jakmall.jakscraper.model.Product;
@@ -37,6 +38,9 @@ public class InvoiceService {
 
 	@Autowired
 	private InvoiceDetailDao invoiceDetailDao;
+	
+	@Autowired
+	private SoldProductService soldProductService;
 
 	@Transactional
 	public InsertResDto insert(InvoiceInsertReqDto data) {
@@ -50,11 +54,11 @@ public class InvoiceService {
 			final Store store = storeRepo.getReferenceById(data.getStoreId());
 			invoice.setStore(store);
 			invoice.setCreatedBy(0L);
-			invoiceDao.insert(invoice);
+			final Invoice invoiceDb = invoiceDao.insert(invoice);
 
 			for (InvoiceDetailInsertReqDto d : data.getDetails()) {
 				final InvoiceDetail detail = new InvoiceDetail();
-				detail.setInvoice(invoice);
+				detail.setInvoice(invoiceDb);
 
 				final Product product = productRepo.getBySku(d.getSku().toUpperCase());
 				detail.setProduct(product);
@@ -63,6 +67,12 @@ public class InvoiceService {
 				detail.setTotalPrice(d.getQty()*product.getPrice());
 				detail.setCreatedBy(0L);
 				invoiceDetailDao.insert(detail);
+				
+				final SoldProductInsertReqDto soldProductInsert = new SoldProductInsertReqDto();
+				soldProductInsert.setSku(product.getSku());
+				soldProductInsert.setQty(detail.getQty());
+				soldProductInsert.setGrandTotal(detail.getTotalPrice());
+				soldProductService.insert(soldProductInsert);
 			}
 
 			if (invoice.getId() != null) {
@@ -79,7 +89,7 @@ public class InvoiceService {
 		}
 	}
 
-	public List<InvoiceResDto> getAll(InvoiceReqDto data) {
+	public List<InvoiceResDto> getAllByStore(InvoiceReqDto data) {
 		final List<InvoiceResDto> responses = new ArrayList<>();
 
 		final List<Invoice> invoices = invoiceDao.getAllByStore(data.getStoreId());
@@ -101,7 +111,38 @@ public class InvoiceService {
 				responseDetail.add(detail);
 			}
 
-			response.setDetail(responseDetail);
+			response.setDetails(responseDetail);
+			responses.add(response);
+
+		}
+
+		return responses;
+	}
+	
+	public List<InvoiceResDto> getAll() {
+		final List<InvoiceResDto> responses = new ArrayList<>();
+
+		final List<Invoice> invoices = invoiceDao.getAll();
+		for (Invoice i : invoices) {
+			final InvoiceResDto response = new InvoiceResDto();
+			response.setId(i.getId());
+			response.setStoreName(i.getStore().getStoreName());
+			response.setInvoiceCode(i.getCode());
+			response.setGrandTotal(i.getGrandTotal());
+
+			final List<InvoiceDetail> invoiceDetails = invoiceDetailDao.getDetail(i.getId());
+			final List<InvoiceDetailResDto> responseDetail = new ArrayList<>();
+			for (InvoiceDetail id : invoiceDetails) {
+				final InvoiceDetailResDto detail = new InvoiceDetailResDto();
+				detail.setSku(id.getProduct().getSku());
+				detail.setProductName(id.getProduct().getProductName());
+				detail.setProductPrice(id.getPrice());
+				detail.setQty(id.getQty());
+				detail.setTotalPrice(id.getPrice());
+				responseDetail.add(detail);
+			}
+
+			response.setDetails(responseDetail);
 			responses.add(response);
 
 		}

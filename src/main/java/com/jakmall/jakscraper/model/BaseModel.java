@@ -18,16 +18,16 @@ public class BaseModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "created_by")
+	@Column(name = "created_by", nullable = false, updatable = false)
 	private Long createdBy;
 	
-	@Column(name = "created_at")
+	@Column(name = "created_at", nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 	
-	@Column(name = "updated_by")
+	@Column(name = "updated_by", insertable = false)
 	private Long updatedBy;
 	
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", insertable = false)
 	private LocalDateTime updatedAt;
 	
 	@Column(name = "is_active")
@@ -37,6 +37,10 @@ public class BaseModel {
 	@Column(name = "ver")
 	private Integer ver;
 	
+	public BaseModel() {
+		ver = 0;
+	}
+
 	@PrePersist
 	private void prePersist() {
 		this.createdAt = LocalDateTime.now();

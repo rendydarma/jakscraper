@@ -20,7 +20,7 @@ public class InvoiceDetailDao {
 	}
 	
 	public List<InvoiceDetail> getDetail(Long invoiceId){
-		final List<InvoiceDetail> details = invoiceDetailRepo.getByInvoice(invoiceId);
+		final List<InvoiceDetail> details = invoiceDetailRepo.getByInvoiceId(invoiceId);
 		return details;
 	}
 }

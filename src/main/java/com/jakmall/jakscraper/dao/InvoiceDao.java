@@ -15,12 +15,17 @@ public class InvoiceDao {
 	private InvoiceRepo invoiceRepo;
 	
 	public Invoice insert(Invoice invoice) {
-		invoiceRepo.save(invoice);
+		invoice = invoiceRepo.save(invoice);
 		return invoice;
 	}
 	
 	public List<Invoice> getAllByStore(Long storeId) {
 		final List<Invoice> invoices = invoiceRepo.getByStore(storeId);
+		return invoices;
+	}
+	
+	public List<Invoice> getAll() {
+		final List<Invoice> invoices = invoiceRepo.findAll();
 		return invoices;
 	}
 }

@@ -7,15 +7,22 @@ import com.jakmall.jakscraper.dto.invoicedetail.InvoiceDetailResDto;
 public class InvoiceResDto {
 
 	private Long id;
+	private String storeName;
 	private String invoiceCode;
 	private Long grandTotal;
-	private List<InvoiceDetailResDto> detail;
+	private List<InvoiceDetailResDto> details;
 
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getStoreName() {
+		return storeName;
+	}
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
 	}
 	public String getInvoiceCode() {
 		return invoiceCode;
@@ -29,11 +36,11 @@ public class InvoiceResDto {
 	public void setGrandTotal(Long grandTotal) {
 		this.grandTotal = grandTotal;
 	}
-	public void setDetail(List<InvoiceDetailResDto> detail) {
-		this.detail = detail;
+	public void setDetails(List<InvoiceDetailResDto> details) {
+		this.details = details;
 	}
-	public List<InvoiceDetailResDto> getDetail() {
-		return detail;
+	public List<InvoiceDetailResDto> getDetails() {
+		return details;
 	}
 	
 }

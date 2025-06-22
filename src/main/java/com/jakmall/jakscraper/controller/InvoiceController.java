@@ -24,9 +24,15 @@ public class InvoiceController {
 	@Autowired
 	private InvoiceService invoiceService;
 	
-	@GetMapping()
+	@GetMapping("/store")
 	public ResponseEntity<List<InvoiceResDto>> getAllByStore(@RequestBody InvoiceReqDto data){
-		final List<InvoiceResDto> responses = invoiceService.getAll(data);
+		final List<InvoiceResDto> responses = invoiceService.getAllByStore(data);
+		return new ResponseEntity<List<InvoiceResDto>>(responses, HttpStatus.CREATED);
+	}
+	
+	@GetMapping()
+	public ResponseEntity<List<InvoiceResDto>> getAll(){
+		final List<InvoiceResDto> responses = invoiceService.getAll();
 		return new ResponseEntity<List<InvoiceResDto>>(responses, HttpStatus.CREATED);
 	}
 	

@@ -47,6 +47,7 @@ public class ExcelService {
 						row.getCell(7).setCellValue(product.getPrice().toString());
 						if (product.getInStock()) {
 							row.getCell(11).setCellValue("Aktif");
+							row.getCell(8).setCellValue("10");
 						} else {
 							row.getCell(11).setCellValue("Nonaktif");
 						}

@@ -10,5 +10,5 @@ import com.jakmall.jakscraper.model.InvoiceDetail;
 @Repository
 public interface InvoiceDetailRepo extends JpaRepository<InvoiceDetail, Long>{
 
-	List<InvoiceDetail> getByInvoice(Long invoiceId);
+	List<InvoiceDetail> getByInvoiceId(Long invoiceId);
 }
