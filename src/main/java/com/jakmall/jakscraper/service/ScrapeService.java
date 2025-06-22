@@ -36,7 +36,11 @@ public class ScrapeService {
 		final List<ProductResDto> latestProducts = productService.getAll();
 		for(ProductResDto p : latestProducts) {
 			try {
-				Document doc = Jsoup.connect("https://www.jakmall.com/search?q=" + p.getSku()).get();
+				Document doc = Jsoup.connect("https://www.jakmall.com/search?q=" + p.getSku())
+					    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
+					    .header("Accept-Language", "en-US,en;q=0.9")
+					    .timeout(10000)
+					    .get();
 				String data = doc.data().toString();
 				int startIndex = data.lastIndexOf("result = ");
 				int lastIndex = data.indexOf("var config");
@@ -138,7 +142,11 @@ public class ScrapeService {
 	public List<Product> extendScrape(Supplier supplier, String url) {
 		final List<Product> products = new ArrayList<>();
 		try {
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url)
+				    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
+				    .header("Accept-Language", "en-US,en;q=0.9")
+				    .timeout(10000)
+				    .get();
 			String data = doc.data().toString();
 			int startIndex = data.lastIndexOf("result = ");
 			int lastIndex = data.indexOf("var config");
