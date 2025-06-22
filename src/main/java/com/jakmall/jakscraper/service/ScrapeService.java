@@ -61,7 +61,7 @@ public class ScrapeService {
 							product.setProductName(productArr.getJSONObject(i).getString("name"));
 							product.setSku(productSku.getJSONObject(j).getString("sku"));
 							product.setPrice(Long.valueOf(productSku.getJSONObject(j).getLong("final_price")));
-							product.setPrice(product.getPrice() * 25/100 + product.getPrice() + 10000);
+							product.setPrice(roundUpToNearest((product.getPrice() * 40/100) + product.getPrice() + 10000,100));
 							product.setInStock(Boolean.valueOf(productSku.getJSONObject(j).getBoolean("in_stock")));
 							product.setCreatedBy(0L);
 							products.add(product);
@@ -92,7 +92,7 @@ public class ScrapeService {
 //						product.setProductName(productArr.getJSONObject(i).getString("name"));
 //						product.setSku(productSku.getJSONObject(j).getString("sku"));
 //						product.setPrice(Long.valueOf(productSku.getJSONObject(j).getLong("final_price")));
-//						product.setPrice((long) Math.ceil((product.getPrice() * 40/100) + product.getPrice() + 9200));
+//		                product.setPrice(roundUpToNearest((product.getPrice() * 40/100) + product.getPrice() + 10000,100));
 //						product.setInStock(Boolean.valueOf(productSku.getJSONObject(j).getBoolean("in_stock")));
 //						product.setCreatedBy(0L);
 //						products.add(product);
@@ -129,6 +129,10 @@ public class ScrapeService {
 			responses.add(response);
 		}
 		return responses;
+	}
+
+	public Long roundUpToNearest(Long value, int i) {
+	    return (long) (Math.ceil(value / i) * i);
 	}
 	
 	public List<Product> extendScrape(Supplier supplier, String url) {
